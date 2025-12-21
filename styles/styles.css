@@ -980,3 +980,7 @@
   color: #9ff2ff;
   text-shadow: 0 0 6px rgba(111, 221, 232, 0.6);
 }
+
+.video-container {
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
