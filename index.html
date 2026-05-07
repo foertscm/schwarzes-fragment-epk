@@ -18,6 +18,7 @@
   <meta property="og:locale" content="de_DE">
 
   <!-- Favicon -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="logos/png/white/64/schwarzes-fragment-logo-white_64.png" type="image/png">
 
   <link rel="stylesheet" href="styles/styles.css">
@@ -95,27 +96,33 @@
           <li class="gig">
             <span class="gig__date">Schwarzes Fragment<br>
             <b>Promo Tracks</b></span>
-            <div class="track" style="margin-top: 10px">
+            <div class="track">
               Auswahl aktueller Tracks für Booker und Veranstalter - direkt abspielbar.
+              <div class="audio-player" data-src="audio/Schwarzes_Fragment_-_Digital_Phantom.mp3">
+                <button class="audio-player__btn" aria-label="Play Digital Phantom">&#9654;</button>
+                <div class="audio-player__body">
+                  <span class="audio-player__title">Digital Phantom</span>
+                  <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+                </div>
+                <span class="audio-player__time">0:00</span>
+              </div>
+              <div class="audio-player" data-src="audio/Schwarzes_Fragment_-_Phoenix_Circuit.mp3">
+                <button class="audio-player__btn" aria-label="Play Phoenix Circuit">&#9654;</button>
+                <div class="audio-player__body">
+                  <span class="audio-player__title">Phoenix Circuit</span>
+                  <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+                </div>
+                <span class="audio-player__time">0:00</span>
+              </div>
+              <div class="audio-player" data-src="audio/Schwarzes_Fragment_-_Schwachstromliebe.mp3">
+                <button class="audio-player__btn" aria-label="Play Schwachstromliebe">&#9654;</button>
+                <div class="audio-player__body">
+                  <span class="audio-player__title">Schwachstromliebe</span>
+                  <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+                </div>
+                <span class="audio-player__time">0:00</span>
+              </div>
             </div>
-            <nav class="gig__cta">
-              <div class="track" style="margin-top: 10px">
-                <span class="track__title">Digital Phantom</span> <audio controls="" src=
-                "audio/Schwarzes_Fragment_-_Digital_Phantom.mp3"></audio>
-              </div>
-            </nav>
-            <nav class="gig__cta">
-              <div class="track">
-                <span class="track__title">Phoenix Circuit</span> <audio controls="" src=
-                "audio/Schwarzes_Fragment_-_Phoenix_Circuit.mp3"></audio>
-              </div>
-            </nav>
-            <nav class="gig__cta">
-              <div class="track">
-                <span class="track__title">Schwachstromliebe</span> <audio controls="" src=
-                "audio/Schwarzes_Fragment_-_Schwachstromliebe.mp3"></audio>
-              </div>
-            </nav>
           </li>
           <li class="gig">
             <span class="gig__date">Schwarzes Fragment<br>
@@ -240,6 +247,44 @@
     <p class="site-footer__impressum">Impressum: Martin F&ouml;rtsch &mdash; <a href="mailto:info@schwarzes-fragment.de">info@schwarzes-fragment.de</a></p>
   </footer>
   <script>
+    document.querySelectorAll('.audio-player').forEach(player => {
+      const btn  = player.querySelector('.audio-player__btn');
+      const bar  = player.querySelector('.audio-player__bar');
+      const wrap = player.querySelector('.audio-player__bar-wrap');
+      const time = player.querySelector('.audio-player__time');
+      const audio = new Audio(player.dataset.src);
+      player._audio = audio;
+      const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+      btn.addEventListener('click', () => {
+        if (audio.paused) {
+          document.querySelectorAll('.audio-player').forEach(p => {
+            if (p !== player && p._audio) { p._audio.pause(); p.querySelector('.audio-player__btn').textContent = '▶'; }
+          });
+          audio.play();
+          btn.textContent = '⏸';
+        } else {
+          audio.pause();
+          btn.textContent = '▶';
+        }
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+          bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          time.textContent = fmt(audio.currentTime);
+        }
+      });
+      audio.addEventListener('ended', () => {
+        btn.textContent = '▶';
+        bar.style.width = '0%';
+        time.textContent = '0:00';
+      });
+      wrap.addEventListener('click', e => {
+        if (!audio.duration) return;
+        const rect = wrap.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+      });
+    });
+
     document.querySelectorAll('.epk-video-consent').forEach(wrapper => {
       wrapper.addEventListener('click', () => {
         const container = document.createElement('div');

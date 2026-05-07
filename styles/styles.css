@@ -25,6 +25,7 @@
 }
 
 :root {
+	 color-scheme: dark;
 	 --overlay-1: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.8));
 	 --overlay-2: radial-gradient(900px 600px at 80% 30%, rgba(107,77,242,.18), transparent 60%), radial-gradient(700px 500px at 15% 80%, rgba(178,12,27,.22), transparent 60%);
 	 --ink: #e8e6f2;
@@ -231,7 +232,9 @@ body::before {
 }
 /* Card – gläsern & kompakt */
  .gig{
-	 align-items: center;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: stretch;
 	 gap: 14px;
 	 padding: 12px;
 	 background: rgba(12,12,18,.48);
@@ -836,7 +839,7 @@ body::before {
 .track {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   line-height: 1.75;
 }
 .track p {
@@ -897,6 +900,72 @@ body::before {
   font-size: .68rem;
   opacity: .4;
 }
+/* --------- CUSTOM AUDIO PLAYER --------- */
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.audio-player__btn {
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(107,77,242,.55);
+  background: rgba(107,77,242,.12);
+  color: #fff;
+  font-size: .65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2px;
+  line-height: 1;
+  transition: background .2s, transform .15s;
+}
+.audio-player__btn:hover {
+  background: rgba(107,77,242,.4);
+  transform: scale(1.08);
+}
+.audio-player__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.audio-player__title {
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+.audio-player__bar-wrap {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,.1);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.audio-player__bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(107,77,242,.9), rgba(178,12,27,.65));
+  border-radius: 2px;
+  transition: width .1s linear;
+  pointer-events: none;
+}
+.audio-player__time {
+  flex: 0 0 auto;
+  font-size: .6rem;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+  letter-spacing: .02em;
+}
+
 /* --------- EPK VIDEO CONSENT WRAPPER --------- */
 .epk-video-consent {
   position: relative;
