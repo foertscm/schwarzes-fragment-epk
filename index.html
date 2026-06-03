@@ -235,21 +235,27 @@
             <div class="track">
               <div class="carousel" data-autoplay="5500" aria-roledescription="carousel" aria-label="Pressebilder">
                 <ul class="carousel__slides">
-                  <li class="carousel__slide carousel__slide--active"><img src="images/SCHWARZES_FRAGMENT-band-photo.webp" alt="Schwarzes Fragment – Pressefoto 1"></li>
-                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-band-photo-02.webp" alt="Schwarzes Fragment – Pressefoto 2" loading="lazy"></li>
-                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-band-photo-03.webp" alt="Schwarzes Fragment – Pressefoto 3" loading="lazy"></li>
+                  <li class="carousel__slide carousel__slide--active" data-download="images/SCHWARZES_FRAGMENT-band-photo.png"><img src="images/SCHWARZES_FRAGMENT-band-photo.webp" alt="Schwarzes Fragment – Pressefoto 1"></li>
+                  <li class="carousel__slide" data-download="images/SCHWARZES_FRAGMENT-band-photo-02.png"><img src="images/SCHWARZES_FRAGMENT-band-photo-02.webp" alt="Schwarzes Fragment – Pressefoto 2" loading="lazy"></li>
+                  <li class="carousel__slide" data-download="images/SCHWARZES_FRAGMENT-band-photo-03.png"><img src="images/SCHWARZES_FRAGMENT-band-photo-03.webp" alt="Schwarzes Fragment – Pressefoto 3" loading="lazy"></li>
                 </ul>
+                <a class="carousel__download" href="images/SCHWARZES_FRAGMENT-band-photo.png" download="" aria-label="Aktuelles Bild herunterladen" title="Aktuelles Bild herunterladen">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42L11 13.59V4a1 1 0 0 1 1-1Zm-7 15a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Z"/></svg>
+                </a>
                 <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Vorheriges Bild">‹</button>
                 <button class="carousel__nav carousel__nav--next" type="button" aria-label="Nächstes Bild">›</button>
               </div>
               <div class="carousel carousel--live" data-autoplay="6300" aria-roledescription="carousel" aria-label="Live-Eindrücke">
                 <ul class="carousel__slides">
-                  <li class="carousel__slide carousel__slide--active"><img src="images/SCHWARZES_FRAGMENT-live-01.webp" alt="Schwarzes Fragment live – Bild 1" loading="lazy"></li>
-                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-02.webp" alt="Schwarzes Fragment live – Bild 2" loading="lazy"></li>
-                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-03.webp" alt="Schwarzes Fragment live – Bild 3" loading="lazy"></li>
-                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-04.webp" alt="Schwarzes Fragment live – Bild 4" loading="lazy"></li>
+                  <li class="carousel__slide carousel__slide--active" data-download="images/SCHWARZES_FRAGMENT-live-01.jpg"><img src="images/SCHWARZES_FRAGMENT-live-01.webp" alt="Schwarzes Fragment live – Bild 1" loading="lazy"></li>
+                  <li class="carousel__slide" data-download="images/SCHWARZES_FRAGMENT-live-04.jpg"><img src="images/SCHWARZES_FRAGMENT-live-04.webp" alt="Schwarzes Fragment live – Bild 2" loading="lazy"></li>
+                  <li class="carousel__slide" data-download="images/SCHWARZES_FRAGMENT-live-02.jpg"><img src="images/SCHWARZES_FRAGMENT-live-02.webp" alt="Schwarzes Fragment live – Bild 3" loading="lazy"></li>
+                  <li class="carousel__slide" data-download="images/SCHWARZES_FRAGMENT-live-03.jpg"><img src="images/SCHWARZES_FRAGMENT-live-03.webp" alt="Schwarzes Fragment live – Bild 4" loading="lazy"></li>
                 </ul>
                 <span class="carousel__caption">Live-Support für Kirlian Camera · Club From Hell Erfurt · April 2026</span>
+                <a class="carousel__download" href="images/SCHWARZES_FRAGMENT-live-01.jpg" download="" aria-label="Aktuelles Bild herunterladen" title="Aktuelles Bild herunterladen">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42L11 13.59V4a1 1 0 0 1 1-1Zm-7 15a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Z"/></svg>
+                </a>
                 <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Vorheriges Bild">‹</button>
                 <button class="carousel__nav carousel__nav--next" type="button" aria-label="Nächstes Bild">›</button>
               </div>
@@ -372,6 +378,7 @@
       if (slides.length <= 1) return;
       const prev = carousel.querySelector('.carousel__nav--prev');
       const next = carousel.querySelector('.carousel__nav--next');
+      const download = carousel.querySelector('.carousel__download');
       const interval = parseInt(carousel.dataset.autoplay, 10) || 5500;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let current = 0;
@@ -380,6 +387,9 @@
         slides[current].classList.remove('carousel__slide--active');
         current = ((idx % slides.length) + slides.length) % slides.length;
         slides[current].classList.add('carousel__slide--active');
+        if (download && slides[current].dataset.download) {
+          download.href = slides[current].dataset.download;
+        }
       };
       const start = () => { if (!timer && !reduced) timer = setInterval(() => show(current + 1), interval); };
       const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };

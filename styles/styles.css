@@ -1071,6 +1071,38 @@ body::before {
 .carousel__nav--prev { left: 10px; }
 .carousel__nav--next { right: 10px; }
 
+.carousel__download {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background .2s, border-color .2s, transform .2s, opacity .2s;
+  opacity: .85;
+}
+.carousel__download:hover,
+.carousel__download:focus-visible {
+  background: rgba(107,77,242,.75);
+  border-color: rgba(255,255,255,.7);
+  transform: scale(1.08);
+  opacity: 1;
+  outline: none;
+}
+.carousel__download svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
 .carousel--live { margin-top: 14px; }
 
 .carousel__caption {
