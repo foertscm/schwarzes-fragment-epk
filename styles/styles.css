@@ -199,18 +199,18 @@ body::before {
 /* "PRESSEZITAT" punk sticker — mirrors FULL VOLTAGE, top-left, yellow, anti-clockwise tilt */
 .hero-press-sticker {
 	position: absolute;
-	top: -8%;
-	left: -11%;
+	top: -18%;
+	left: -14%;
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: .55em .9em;
+	padding: .45em .8em;
 	background: #ffd400;
 	color: #0c0c12;
 	font-family: 'Orbitron', system-ui, sans-serif;
 	font-weight: 900;
-	font-size: clamp(.45rem, 1.4vw, .85rem);
+	font-size: clamp(.4rem, 1.25vw, .78rem);
 	letter-spacing: .06em;
 	text-transform: uppercase;
 	line-height: 1.18;
@@ -1005,31 +1005,107 @@ body::before {
   margin: 0 0 10px;
 }
 
-/* Press photos — three-up gallery */
-.press-photos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-top: 10px;
-}
-.press-photo {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.press-photo img {
+/* Carousel — used for Pressebilder + Live-Eindrücke */
+.carousel {
+  position: relative;
   width: 100%;
-  height: auto;
-  border-radius: 6px;
-  display: block;
-  box-shadow: 0 4px 14px rgba(0,0,0,.45);
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0,0,0,.35);
+  box-shadow: 0 6px 22px rgba(0,0,0,.5);
+  aspect-ratio: 16 / 9;
 }
-.press-photo__dl {
-  align-self: center;
-  font-size: .72rem !important;
-  padding: 6px 14px !important;
-  letter-spacing: .04em;
+.carousel__slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+.carousel__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .8s ease-in-out;
+  pointer-events: none;
+}
+.carousel__slide--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 0 3px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.carousel__nav:hover,
+.carousel__nav:focus-visible {
+  background: rgba(107,77,242,.7);
+  border-color: rgba(255,255,255,.6);
+  transform: translateY(-50%) scale(1.08);
+  outline: none;
+}
+.carousel__nav--prev { left: 10px; }
+.carousel__nav--next { right: 10px; }
+
+.carousel--live { margin-top: 14px; }
+
+.carousel__caption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  z-index: 1;
+  padding: 4px 12px;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 4px;
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  color: rgba(255,255,255,.95);
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  pointer-events: none;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .carousel__caption {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 3px 10px;
+    font-size: .68rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__slide { transition: none; }
 }
 
 .track__title {

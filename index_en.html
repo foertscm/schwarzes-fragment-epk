@@ -232,19 +232,27 @@
           <li class="gig">
             <span class="gig__date">Schwarzes Fragment<br>
             <b>Press Photos</b></span>
-            <div class="track press-photos">
-              <figure class="press-photo">
-                <img src="images/SCHWARZES_FRAGMENT-band-photo.webp" alt="Schwarzes Fragment – Band Photo 1" loading="lazy">
-                <a href="images/SCHWARZES_FRAGMENT-band-photo.png" download="" class="btn btn--ghost press-photo__dl" target="_blank">Download (PNG)</a>
-              </figure>
-              <figure class="press-photo">
-                <img src="images/SCHWARZES_FRAGMENT-band-photo-02.webp" alt="Schwarzes Fragment – Band Photo 2" loading="lazy">
-                <a href="images/SCHWARZES_FRAGMENT-band-photo-02.png" download="" class="btn btn--ghost press-photo__dl" target="_blank">Download (PNG)</a>
-              </figure>
-              <figure class="press-photo">
-                <img src="images/SCHWARZES_FRAGMENT-band-photo-03.webp" alt="Schwarzes Fragment – Band Photo 3" loading="lazy">
-                <a href="images/SCHWARZES_FRAGMENT-band-photo-03.png" download="" class="btn btn--ghost press-photo__dl" target="_blank">Download (PNG)</a>
-              </figure>
+            <div class="track">
+              <div class="carousel" data-autoplay="5500" aria-roledescription="carousel" aria-label="Press photos">
+                <ul class="carousel__slides">
+                  <li class="carousel__slide carousel__slide--active"><img src="images/SCHWARZES_FRAGMENT-band-photo.webp" alt="Schwarzes Fragment – Press Photo 1"></li>
+                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-band-photo-02.webp" alt="Schwarzes Fragment – Press Photo 2" loading="lazy"></li>
+                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-band-photo-03.webp" alt="Schwarzes Fragment – Press Photo 3" loading="lazy"></li>
+                </ul>
+                <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Previous photo">‹</button>
+                <button class="carousel__nav carousel__nav--next" type="button" aria-label="Next photo">›</button>
+              </div>
+              <div class="carousel carousel--live" data-autoplay="6300" aria-roledescription="carousel" aria-label="Live impressions">
+                <ul class="carousel__slides">
+                  <li class="carousel__slide carousel__slide--active"><img src="images/SCHWARZES_FRAGMENT-live-01.webp" alt="Schwarzes Fragment live – Photo 1" loading="lazy"></li>
+                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-02.webp" alt="Schwarzes Fragment live – Photo 2" loading="lazy"></li>
+                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-03.webp" alt="Schwarzes Fragment live – Photo 3" loading="lazy"></li>
+                  <li class="carousel__slide"><img src="images/SCHWARZES_FRAGMENT-live-04.webp" alt="Schwarzes Fragment live – Photo 4" loading="lazy"></li>
+                </ul>
+                <span class="carousel__caption">Live support for Kirlian Camera · Club From Hell Erfurt · April 2026</span>
+                <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Previous photo">‹</button>
+                <button class="carousel__nav carousel__nav--next" type="button" aria-label="Next photo">›</button>
+              </div>
             </div>
             <div class="press-photo__actions">
               <a href="images/SCHWARZES_FRAGMENT-band-and-live-photos.zip" download="" class="btn btn--ghost" target="_blank">Download All (ZIP)</a>
@@ -355,6 +363,33 @@
         container.appendChild(iframe);
         wrapper.replaceWith(container);
       });
+    });
+
+    // Carousels — crossfade + auto-advance + manual prev/next, pause on hover
+    document.querySelectorAll('.carousel').forEach(carousel => {
+      const slides = carousel.querySelectorAll('.carousel__slide');
+      if (slides.length <= 1) return;
+      const prev = carousel.querySelector('.carousel__nav--prev');
+      const next = carousel.querySelector('.carousel__nav--next');
+      const interval = parseInt(carousel.dataset.autoplay, 10) || 5500;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let current = 0;
+      let timer = null;
+      const show = idx => {
+        slides[current].classList.remove('carousel__slide--active');
+        current = ((idx % slides.length) + slides.length) % slides.length;
+        slides[current].classList.add('carousel__slide--active');
+      };
+      const start = () => { if (!timer && !reduced) timer = setInterval(() => show(current + 1), interval); };
+      const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+      const reset = () => { stop(); start(); };
+      prev.addEventListener('click', () => { show(current - 1); reset(); });
+      next.addEventListener('click', () => { show(current + 1); reset(); });
+      carousel.addEventListener('mouseenter', stop);
+      carousel.addEventListener('mouseleave', start);
+      carousel.addEventListener('focusin',   stop);
+      carousel.addEventListener('focusout',  start);
+      start();
     });
   </script>
 </body>
