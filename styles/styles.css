@@ -172,12 +172,12 @@ body::before {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 8px 14px;
+	padding: .6em 1em;
 	background: #d6202c;
 	color: #fff;
 	font-family: 'Orbitron', system-ui, sans-serif;
 	font-weight: 900;
-	font-size: clamp(.65rem, 1.1vw, .95rem);
+	font-size: clamp(.5rem, 1.6vw, .95rem);
 	letter-spacing: .08em;
 	text-transform: uppercase;
 	line-height: 1.15;
@@ -196,8 +196,42 @@ body::before {
 	overflow: hidden;
 	animation: hero-sticker-blink 4.3s step-end infinite;
 }
-/* CRT static scanlines — subtle, single gradient (neon-grid style) */
-.hero-sticker::before {
+/* "PRESSEZITAT" punk sticker — mirrors FULL VOLTAGE, top-left, yellow, anti-clockwise tilt */
+.hero-press-sticker {
+	position: absolute;
+	top: -8%;
+	left: -11%;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: .55em .9em;
+	background: #ffd400;
+	color: #0c0c12;
+	font-family: 'Orbitron', system-ui, sans-serif;
+	font-weight: 900;
+	font-size: clamp(.45rem, 1.4vw, .85rem);
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	line-height: 1.18;
+	border: 2px solid #0c0c12;
+	border-radius: 4px;
+	transform: rotate(-17deg);
+	transform-origin: center center;
+	box-shadow:
+		0 4px 14px rgba(0,0,0,.55),
+		0 0 12px rgba(255,212,0,.65),
+		0 0 28px rgba(255,212,0,.35),
+		inset 0 0 0 1px rgba(0,0,0,.18);
+	z-index: 3;
+	pointer-events: none;
+	white-space: nowrap;
+	overflow: hidden;
+	animation: hero-sticker-blink 5.1s step-end infinite;
+}
+/* CRT static scanlines — shared between both stickers */
+.hero-sticker::before,
+.hero-press-sticker::before {
 	content: "";
 	position: absolute;
 	inset: 0;
@@ -211,8 +245,9 @@ body::before {
 	);
 	mix-blend-mode: multiply;
 }
-/* Vertical sweep band — slow, wide, bright (the signature CRT scan beam) */
-.hero-sticker::after {
+/* Vertical sweep band — shared, slightly desynced via the per-sticker animation */
+.hero-sticker::after,
+.hero-press-sticker::after {
 	content: "";
 	position: absolute;
 	left: 0;
@@ -231,6 +266,7 @@ body::before {
 	mix-blend-mode: screen;
 	animation: hero-sticker-sweep 7s linear infinite;
 }
+.hero-press-sticker::after { animation: hero-sticker-sweep 8.3s linear infinite; }
 @keyframes hero-sticker-sweep {
 	0%   { top: -60%; }
 	100% { top: 100%; }
@@ -238,16 +274,30 @@ body::before {
 /* Sparse color-shift glitch — step-end snaps through 3 DARKER chroma states */
 @keyframes hero-sticker-blink {
 	0%, 81%, 88%, 100% { filter: brightness(1)   hue-rotate(0deg)   saturate(1); }
-	82%                { filter: brightness(.55) hue-rotate(-12deg) saturate(1.3); } /* dark crimson */
-	84%                { filter: brightness(.4)  hue-rotate(18deg)  saturate(.55); } /* muddy dark red */
-	86%                { filter: brightness(.65) hue-rotate(-6deg)  saturate(1.5); } /* deep blood red */
+	82%                { filter: brightness(.55) hue-rotate(-12deg) saturate(1.3); }
+	84%                { filter: brightness(.4)  hue-rotate(18deg)  saturate(.55); }
+	86%                { filter: brightness(.65) hue-rotate(-6deg)  saturate(1.5); }
 }
 @media (prefers-reduced-motion: reduce) {
 	.hero-sticker,
-	.hero-sticker::after { animation: none; }
-	.hero-sticker::after { display: none; }
+	.hero-sticker::after,
+	.hero-press-sticker,
+	.hero-press-sticker::after { animation: none; }
+	.hero-sticker::after,
+	.hero-press-sticker::after { display: none; }
 }
-.hero-sticker__line { display: block; }
+.hero-sticker__line,
+.hero-press-sticker__line { display: block; }
+.hero-press-sticker__meta,
+.hero-press-sticker__attr {
+	display: block;
+	font-size: .72em;
+	font-weight: 700;
+	letter-spacing: .04em;
+	opacity: .85;
+}
+.hero-press-sticker__meta { margin-bottom: 3px; }
+.hero-press-sticker__attr { margin-top: 3px; }
 .hero-sticker__bolt {
 	display: inline-block;
 	width: 1em;
@@ -955,6 +1005,33 @@ body::before {
   margin: 0 0 10px;
 }
 
+/* Press photos — three-up gallery */
+.press-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.press-photo {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.press-photo img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 4px 14px rgba(0,0,0,.45);
+}
+.press-photo__dl {
+  align-self: center;
+  font-size: .72rem !important;
+  padding: 6px 14px !important;
+  letter-spacing: .04em;
+}
+
 .track__title {
   font-size: 0.9rem;
   opacity: 0.8;
@@ -1129,8 +1206,14 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 4px;
+  padding: 0;
   transition: background .2s, transform .2s;
+}
+.epk-video-consent__play {
+  width: 1.5em;
+  height: 1.5em;
+  fill: currentColor;
+  display: block;
 }
 .epk-video-consent:hover .epk-video-consent__btn {
   background: rgba(107,77,242,.7);
