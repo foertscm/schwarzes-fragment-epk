@@ -289,36 +289,51 @@ body::before {
 .hero-sticker__line,
 .hero-press-sticker__line { display: block; }
 
-/* Mobile sticker scaling — phones below ~600px need both stickers shrunk and pushed
-   slightly outward so they don't cover the SCHWARZES FRAGMENT logo. */
+/* Mobile sticker scaling — phones below ~600px.
+   The .hero-logo-wrap shrinks to the logo width (~220px on mobile),
+   so % offsets reference a small box. We push the stickers laterally
+   far enough (~30–36% of the wrap = 70–80px) to sit OUTSIDE the logo
+   text in the side margin, and shrink them to fit that margin. */
 @media (max-width: 600px) {
 	.hero-sticker {
-		font-size: .55rem;
-		padding: .4em .75em;
-		letter-spacing: .05em;
+		font-size: .5rem;
+		padding: .35em .7em;
+		letter-spacing: .04em;
 		top: -10%;
-		right: -8%;
+		right: -28%;
 	}
 	.hero-press-sticker {
-		font-size: .42rem;
-		padding: .3em .6em;
-		letter-spacing: .04em;
+		font-size: .4rem;
+		padding: .28em .55em;
+		letter-spacing: .03em;
 		top: -22%;
-		left: -10%;
+		left: -32%;
 	}
 }
 @media (max-width: 430px) {
 	.hero-sticker {
-		font-size: .48rem;
-		padding: .35em .65em;
-		top: -14%;
-		right: -6%;
+		font-size: .46rem;
+		padding: .3em .6em;
+		top: -12%;
+		right: -32%;
 	}
 	.hero-press-sticker {
-		font-size: .38rem;
-		padding: .26em .55em;
+		font-size: .36rem;
+		padding: .24em .48em;
 		top: -26%;
-		left: -8%;
+		left: -36%;
+	}
+}
+@media (max-width: 360px) {
+	.hero-sticker {
+		font-size: .42rem;
+		padding: .25em .5em;
+		right: -28%;
+	}
+	.hero-press-sticker {
+		font-size: .32rem;
+		padding: .2em .42em;
+		left: -32%;
 	}
 }
 .hero-press-sticker__meta,
