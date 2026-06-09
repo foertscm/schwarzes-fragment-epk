@@ -1084,6 +1084,33 @@ body::before {
   margin: 0 0 10px;
 }
 
+/* Quick Facts — key/value fact sheet for journalist + booker scan-ability.
+   Two-column grid: Orbitron uppercase label (left), regular value (right). */
+.quick-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 18px;
+  row-gap: 10px;
+  margin: 6px 0 0;
+  padding: 0;
+  text-align: left;
+}
+.quick-facts dt {
+  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size: .66rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.quick-facts dd {
+  margin: 0;
+  color: rgba(255,255,255,.9);
+  font-size: .92rem;
+  line-height: 1.45;
+}
+
 /* Carousel — used for Pressebilder + Live-Eindrücke */
 .carousel {
   position: relative;
