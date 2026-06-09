@@ -437,6 +437,37 @@ body::before {
 	 gap: 14px;
 	 justify-content: center;
 }
+/* Card – wide variant: spans 2 columns for content-heavy cards (prose, video
+   embeds, carousels). Auto-caps to available columns on narrower viewports. */
+.gig--wide {
+	grid-column: span 2;
+}
+@media (max-width: 700px) {
+	.gig--wide { grid-column: span 1; }
+}
+
+/* Two videos / carousels side-by-side inside a wide card;
+   auto-stacks below ~760px viewport. */
+.video-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 16px;
+	margin-top: 10px;
+}
+/* Three audio players side-by-side inside the wide Promo Tracks card;
+   tighter minmax than .video-row (audio rows are horizontal, no aspect ratio).
+   Auto-stacks below ~700px viewport. */
+.audio-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 12px;
+	margin-top: 14px;
+}
+.video-row__item { display: flex; flex-direction: column; }
+/* Carousels carry their own top margin; reset when laid out side-by-side. */
+.video-row > .carousel,
+.video-row > .carousel--live { margin-top: 0; }
+
 /* Card – gläsern & kompakt */
  .gig{
 	 display: flex;
@@ -1300,6 +1331,12 @@ body::before {
   font-size: .75rem;
   color: var(--muted);
   letter-spacing: .05em;
+  /* Truncate long titles (e.g., "Schwachstromliebe") in the narrow side-by-side
+     audio-row layout; full title visible on hover via title attribute on the row. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .audio-player__bar-wrap {
   width: 100%;
@@ -1396,10 +1433,34 @@ body::before {
 /* --------- STAT STRIP (shared component, mirrors main site) --------- */
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 14px;
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto 18px;
+}
+/* Upcoming-shows counter — cyan accent matches the highlighted rows
+   on the live-history page. */
+.stat-strip__item--upcoming {
+  border-color: rgba(111, 221, 232, .45);
+  background: linear-gradient(180deg, rgba(111,221,232,.06), rgba(12,12,18,.7));
+  box-shadow: 0 6px 22px rgba(0,0,0,.35), inset 0 0 0 1px rgba(111, 221, 232, .12);
+}
+.stat-strip__item--upcoming .stat-strip__num { color: #6fdde8; }
+.stat-strip__item--upcoming .stat-strip__label { color: rgba(111, 221, 232, .85); }
+/* When the upcoming counter is rendered as a link, give it interactive
+   hover/focus styling so it reads as clickable. */
+a.stat-strip__item, a.stat-strip__item--upcoming {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+}
+a.stat-strip__item--upcoming:hover,
+a.stat-strip__item--upcoming:focus-visible {
+  border-color: rgba(111, 221, 232, .75);
+  box-shadow: 0 6px 22px rgba(0,0,0,.35), 0 0 16px rgba(111, 221, 232, .35);
+  transform: translateY(-1px);
+  outline: none;
 }
 .stat-strip__item {
   padding: 18px 18px 20px;
@@ -1411,7 +1472,7 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 .stat-strip__num {
   font-family: 'Orbitron', system-ui, sans-serif;
