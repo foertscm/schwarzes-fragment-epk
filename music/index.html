@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Schwarzes Fragment – Listen</title>
+  <meta name="description" content="Listen to promo tracks by Schwarzes Fragment – melodic Dark Electro / EBM from Munich &amp; Leipzig.">
+  <meta name="author" content="Schwarzes Fragment">
+  <meta name="theme-color" content="#0c0c12">
+
+  <!-- Open Graph (controls link previews in email / Slack / messaging apps) -->
+  <meta property="og:type" content="music.playlist">
+  <meta property="og:site_name" content="Schwarzes Fragment">
+  <meta property="og:title" content="Schwarzes Fragment – Listen">
+  <meta property="og:description" content="Promo tracks: Digital Phantom, Phoenix Circuit, Schwachstromliebe. Melodic Dark Electro / EBM from Munich & Leipzig.">
+  <meta property="og:image" content="https://epk.schwarzes-fragment.de/images/SCHWARZES_FRAGMENT-band-photo.png">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../logos/png/white/64/schwarzes-fragment-logo-white_64.png" type="image/png">
+
+  <link rel="stylesheet" href="../styles/styles.css">
+  <style>
+    .song-page {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 20px 60px;
+      gap: 24px;
+    }
+    .song-page__logo {
+      max-width: clamp(160px, 30vw, 320px);
+      width: 100%;
+      height: auto;
+      filter: brightness(0) invert(1) drop-shadow(0 0 14px rgba(255,255,255,.6)) drop-shadow(0 0 20px rgba(107,77,242,.4));
+    }
+    .song-page__tagline {
+      color: var(--muted);
+      font-size: .85rem;
+      letter-spacing: .05em;
+      margin: 0;
+    }
+    .song-page__title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.3rem, 4vw, 1.9rem);
+      margin: 4px 0 0;
+    }
+    .song-page__players {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Top navigation">
+    <a href="https://epk.schwarzes-fragment.de/" class="site-nav__website">↗ Full Press Kit</a>
+    <a href="https://schwarzes-fragment.de/" target="_blank" rel="noopener noreferrer" class="site-nav__website">↗ Website</a>
+  </nav>
+
+  <main class="song-page">
+    <img src="../images/logos/schwarzes-fragment-logo-and-bandname-with-brackets.png" alt="Schwarzes Fragment" class="song-page__logo">
+    <p class="song-page__tagline">Dark • Electro • E.B.M. • Gothic</p>
+    <h1 class="song-page__title">Promo Tracks</h1>
+
+    <div class="song-page__players">
+      <div class="audio-player" data-src="../audio/Schwarzes_Fragment_-_Digital_Phantom.mp3">
+        <button class="audio-player__btn" aria-label="Play Digital Phantom">&#9654;</button>
+        <div class="audio-player__body">
+          <span class="audio-player__title">Digital Phantom</span>
+          <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+        </div>
+        <span class="audio-player__time">0:00</span>
+      </div>
+      <div class="audio-player" data-src="../audio/Schwarzes_Fragment_-_Phoenix_Circuit.mp3">
+        <button class="audio-player__btn" aria-label="Play Phoenix Circuit">&#9654;</button>
+        <div class="audio-player__body">
+          <span class="audio-player__title">Phoenix Circuit</span>
+          <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+        </div>
+        <span class="audio-player__time">0:00</span>
+      </div>
+      <div class="audio-player" data-src="../audio/Schwarzes_Fragment_-_Schwachstromliebe.mp3">
+        <button class="audio-player__btn" aria-label="Play Schwachstromliebe">&#9654;</button>
+        <div class="audio-player__body">
+          <span class="audio-player__title">Schwachstromliebe</span>
+          <div class="audio-player__bar-wrap"><div class="audio-player__bar"></div></div>
+        </div>
+        <span class="audio-player__time">0:00</span>
+      </div>
+    </div>
+
+    <a class="btn btn--ghost" href="https://epk.schwarzes-fragment.de/">Full Electronic Press Kit →</a>
+    <p class="song-page__tagline">Available for club shows, festivals &amp; support slots — <a href="mailto:booking@schwarzes-fragment.de" class="booking__link">booking@schwarzes-fragment.de</a></p>
+  </main>
+
+  <script>
+    document.querySelectorAll('.audio-player').forEach(player => {
+      const btn  = player.querySelector('.audio-player__btn');
+      const bar  = player.querySelector('.audio-player__bar');
+      const wrap = player.querySelector('.audio-player__bar-wrap');
+      const time = player.querySelector('.audio-player__time');
+      const audio = new Audio(player.dataset.src);
+      player._audio = audio;
+      const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+      btn.addEventListener('click', () => {
+        if (audio.paused) {
+          document.querySelectorAll('.audio-player').forEach(p => {
+            if (p !== player && p._audio) { p._audio.pause(); p.querySelector('.audio-player__btn').textContent = '▶'; }
+          });
+          audio.play();
+          btn.textContent = '⏸';
+        } else {
+          audio.pause();
+          btn.textContent = '▶';
+        }
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+          bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          time.textContent = fmt(audio.currentTime);
+        }
+      });
+      audio.addEventListener('ended', () => {
+        btn.textContent = '▶';
+        bar.style.width = '0%';
+        time.textContent = '0:00';
+      });
+      wrap.addEventListener('click', e => {
+        if (!audio.duration) return;
+        const rect = wrap.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+      });
+    });
+  </script>
+</body>
+</html>
